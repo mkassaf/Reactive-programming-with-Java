@@ -4,8 +4,7 @@ import java.util.*;
 
 public class DynamicProgramming {
 
-
-    public static void main(String[] args) {
+public static void main(String[] args) {
 
         /*
         ArrayList<String> wordBank = new ArrayList<>();
@@ -26,8 +25,56 @@ public class DynamicProgramming {
 
 
         // Print and display the updated List
-        System.out.println("canConstruct " + canConstruct(new String[]{"ab", "abc", "cd", "def", "abcd"}, "abctdef"));
+        System.out.println("canConstruct " + canConstruct(new String[]{"ab", "abc", "cd", "def", "abcd"}, "abcdef"));
+        System.out.println("countConstruct " + countConstruct(new String[]{"ab", "abc", "cd", "c", "d", "def", "abcdef", "e", "f"}, "abcdef"));
+        System.out.println("allConstruct " + allConstruct(new String[]{"ab", "abc", "cd", "c", "d", "def", "abcdef", "e", "f"}, "abcdef"));
     }
+
+    public static ArrayList<ArrayList<String>> allConstruct(String[] words, String target){
+        ArrayList<ArrayList<String>> [] db = new ArrayList[target.length() + 1];
+        db[0] = new ArrayList<>();
+        db[0].add(new ArrayList<>());
+        for (int i=0; i < db.length; i++){
+            for (String word: words ) {
+                int index = word.length()+ i;
+                if(index <= target.length() && target.substring(i, index).equals(word)){
+                    ArrayList<ArrayList<String>> tmpList = new ArrayList<>();
+                    db[i].forEach(list -> {
+                        ArrayList<String> tmp = new ArrayList<>();
+                        list.forEach(elemnt ->{
+                            tmp.add(elemnt);
+                        });
+                        tmp.add(word);
+                        tmpList.add(tmp);
+                    });
+
+                    if(db[index] == null) {
+                        db[index] = tmpList;
+                    } else {
+                        tmpList.forEach( list -> {
+                            db[index].add(list);
+                        });
+                    }
+
+                }
+            }
+        }
+        return db[target.length()];
+    }
+    public static int countConstruct(String[] words, String target){
+        int[] db = new int[target.length() + 1];
+        db[0] = 1;
+        for (int i=0; i < db.length; i++){
+            for (String word: words ) {
+                int index = word.length()+ i;
+                if(index <= target.length() && target.substring(i, index).equals(word)){
+                    db[index] += db[i];
+                }
+            }
+        }
+        return db[target.length()];
+    }
+
     public static boolean canConstruct(String[] words, String target){
         boolean[] db = new boolean[target.length() + 1];
         db[0] = true;
@@ -217,7 +264,6 @@ public class DynamicProgramming {
 
         return shortest;
     }
-
 
 
 }
