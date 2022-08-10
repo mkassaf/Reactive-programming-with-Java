@@ -49,5 +49,12 @@ public class Chapter4Video4 {
                 .collect(Collectors.toList());
 
         System.out.println(results);
+
+        Function<Integer, Integer> fun1 = x -> x*x;
+        Function<Integer, Integer> fun2 = x -> ++x;
+
+        Function<Integer, Integer> fun3 = fun2.compose(fun1);
+
+        System.out.println(fun3.apply(2));
     }
 }

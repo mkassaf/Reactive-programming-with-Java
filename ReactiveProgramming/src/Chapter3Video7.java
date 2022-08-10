@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Chapter3Video7 {
@@ -29,18 +30,20 @@ public class Chapter3Video7 {
         };
         List<Employee> employees = new ArrayList<>(Arrays.asList(employeesArr));
 
-        Float totalDeveloperSalaries = employees
+        Map<String, Float> averageSalary = employees
                 .stream()
-                .filter((employee) -> employee.jobTitle == "developer")
-                .map((developer) -> developer.salary)
-                .reduce(0f, (acc, x) -> acc + x);
+                .collect(Collectors.groupingBy(employee -> employee.jobTitle))
+                        .entrySet()
+                                .stream()
+                                        .collect(Collectors.toMap(
+                                                entry -> entry.getKey(),
+                                                entry -> entry.getValue()
+                                                        .stream()
+                                                        .map(empe -> empe.salary)
+                                                        .reduce(0f, (acc, x) -> acc+x) / entry.getValue().size()
+                                        ));
 
-        Long numberOfDevelopers = employees
-                .stream()
-                .filter((employee) -> employee.jobTitle == "developer")
-                .collect(Collectors.counting());
+        System.out.println(averageSalary);
 
-        Float averageDeveloperSalary = totalDeveloperSalaries / numberOfDevelopers;
-        System.out.println(averageDeveloperSalary);
     }
 }
