@@ -1,0 +1,42 @@
+class GameOfLife {
+    public void solution(int[][] board) {
+        int rowsCount = board.length;
+        if(rowsCount == 0){
+            return;
+        }
+        int colCount = board[0].length;
+        if(colCount == 0){
+            return;
+        }
+        int[][] ne = {{0, -1}, {0,1}, {-1,0}, {1,0}, {-1,-1}, {-1,1}, {1,1},{1,-1}};
+        int [][] result = new int[rowsCount][colCount];
+        for(int i=0; i< rowsCount ; i++){
+            for(int j=0; j< colCount ; j++){
+                int tmp = 0;
+                for(int d=0; d< 8 ; d++){
+                    int r = i + ne[d][0];    
+                    int c = j + ne[d][1];  
+                    if(r < 0 || r >=rowsCount || c < 0 || c >= colCount){
+                        continue;
+                    }
+                    tmp += board[r][c];
+                }
+                result[i][j] = tmp; 
+            }
+        }
+        for(int i=0; i< rowsCount ; i++){
+            for(int j=0; j< colCount ; j++){
+                if(board[i][j] == 1){
+                    if(result[i][j] < 2 || result[i][j] > 3){
+                        board[i][j] = 0;
+                    }
+                } else {
+                   if(result[i][j] == 3){
+                        board[i][j] = 1;
+                    } 
+                }
+            }
+        }
+        
+    }
+}
