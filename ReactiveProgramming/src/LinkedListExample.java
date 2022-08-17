@@ -1,9 +1,8 @@
 import java.util.LinkedList;
 
-public class Main {
+public class LinkedListExample {
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws Exception {
         // Create a Linked List
         LinkedList<String> students = new LinkedList();
 
@@ -13,9 +12,16 @@ public class Main {
         students.add("Morgan");
         students.add("Taylor");
         students.add("Jamie");
+        System.out.println("Midd student: " + findMiddle(students));
+
+        System.out.println("student: " + students);
+        deleteMiddle(students);
+        System.out.println("After delete student: " + students);
 
         students.addFirst("Sarah");
+        System.out.println("addFirst Student: " + students);
         students.addLast("Hailey");
+        System.out.println("addLast Student: " + students);
         students.add(2, "Tara");
 
         // Retrieve items from a Linked List by placement
@@ -52,16 +58,16 @@ public class Main {
         System.out.println(students);
     }
 
+    private static String findMiddle(LinkedList<String> students) throws Exception {
+        if (students.isEmpty()) throw new Exception("Empty data");
+        return students.get(students.size()/2);
+
+    }
+
+    private static void deleteMiddle(LinkedList<String> nodes) throws Exception {
+        if (nodes.isEmpty()) throw new Exception("Empty data");
+
+        nodes.remove(nodes.size()/2);
+
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
