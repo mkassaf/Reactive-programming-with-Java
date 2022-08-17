@@ -51,14 +51,8 @@ public class CinemaSeatAllocation {
 
         for (int[] array: reservedSeats ) {
             if(array[1] > 1 && array[1] < 10){
-                ArrayList<Integer> tmp;
-                if(listSet.containsKey(array[0]-1)){
-                    tmp = listSet.get(array[0]-1);
-                } else {
-                    tmp = new ArrayList<>();
-                }
-                tmp.add(array[1]-1);
-                listSet.put(array[0]-1, tmp);
+                listSet.putIfAbsent(array[0]-1, new ArrayList<>());
+                listSet.get(array[0]-1).add(array[1]-1);
             }
         }
 
